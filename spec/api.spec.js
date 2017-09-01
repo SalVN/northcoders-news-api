@@ -183,6 +183,37 @@ describe('API', function () {
             }
           });
       });
+
+      it('it should return an object containing an array with the key "articles"', done => {
+        request(server)
+          .get('/api/articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body).to.be.an('object');
+              expect(res.body.articles).to.be.an('array');
+              expect(res.body.articles[0]).to.be.an('object');
+              done();
+            }
+          });
+      });
+
+      it('should respond with an array of articles', done => {
+        request(server)
+          .get('/api/articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.articles).to.have.lengthOf(2);
+              res.body.articles.forEach(article => {
+                expect(article).to.include.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes');
+                expect(article.belongs_to).to.be.oneOf(['football', 'cats']);
+                expect(article.title).to.be.oneOf(['Football is fun', 'Cats are great']);
+              });
+              done();
+            }
+          });
+      });
     });
 
 
