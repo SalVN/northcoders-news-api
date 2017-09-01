@@ -519,6 +519,19 @@ describe('API', function () {
           });
       });
 
+      it('responds with status code 404 if the comment_id does not exist', done => {
+        request(server)
+          .put('/api/comments/555?vote=up')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(404);
+              expect(res.body.message).to.equal('COMMENT NOT FOUND');
+              done();
+            }
+          });
+      });
+
       it('vote=up should increment the vote count', done => {
         Comments.findOne({ body: 'this is a comment' })
           .then((comment) => {
@@ -527,6 +540,7 @@ describe('API', function () {
               .end((err, res) => {
                 if (err) done(err);
                 else {
+                  expect(res.body.comment._id).to.eql(comment._id.toString());
                   expect(res.body.comment.votes).to.equal(1);
                   done();
                 }
@@ -542,6 +556,7 @@ describe('API', function () {
               .end((err, res) => {
                 if (err) done(err);
                 else {
+                  expect(res.body.comment._id).to.eql(comment._id.toString());
                   expect(res.body.comment.votes).to.equal(-1);
                   done();
                 }
