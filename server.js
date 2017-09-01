@@ -25,4 +25,15 @@ app.listen(PORT, function () {
   console.log(`listening on port ${PORT}`);
 });
 
+app.use((err, req, res, next) => {
+  if (err.status) {
+    return res.status(err.status).json({ message: err.message });
+  }
+  next(err);
+});
+
+app.use((err, req, res) => {
+  res.status(500).json({ message: 'SERVER ERROR' });
+});
+
 module.exports = app;

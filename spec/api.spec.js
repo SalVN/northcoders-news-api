@@ -30,6 +30,19 @@ describe('API', function () {
         });
     });
 
+    it('responds with status code 400 if an invalid path is provided', done => {
+      request(server)
+        .get('/api/monster')
+        .end((err, res) => {
+          if (err) done(err);
+          else {
+            expect(res.status).to.equal(400);
+            expect(res.body.message).to.equal('INVALID URL');
+            done();
+          }
+        });
+    });
+
     describe('GET /api/articles', () => {
       it('responds with status code 200', done => {
         request(server)
