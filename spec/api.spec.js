@@ -101,8 +101,62 @@ describe('API', function () {
             }
           });
       });
+      it('responds with status code 400 if the topic is not provided', done => {
+        request(server)
+          .get('/api/topics//articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(400);
+              expect(res.body.message).to.equal('INVALID URL');
+              done();
+            }
+          });
+      });
+
+      it('it should return an object containing an array with the key "articles"', done => {
+        request(server)
+          .get('/api/topics/football/articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body).to.be.an('object');
+              expect(res.body.articles).to.be.an('array');
+              expect(res.body.articles[0]).to.be.an('object');
+              done();
+            }
+          });
+      });
+
+      it('should respond with an array of football articles', done => {
+        request(server)
+          .get('/api/topics/football/articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.articles).to.have.lengthOf(1);
+              expect(res.body.articles[0]).to.have.any.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes');
+              expect(res.body.articles[0].belongs_to).to.equal('football');
+              done();
+            }
+          });
+      });
+
+      it('should respond with an array of cats articles', done => {
+        request(server)
+          .get('/api/topics/cats/articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.articles).to.have.lengthOf(1);
+              expect(res.body.articles[0]).to.have.any.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes');
+              expect(res.body.articles[0].belongs_to).to.equal('cats');
+              done();
+            }
+          });
+      });
 
     });
-    
+
   });
 });
