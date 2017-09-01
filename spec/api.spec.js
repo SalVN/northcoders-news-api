@@ -315,6 +315,19 @@ describe('API', function () {
 
       });
 
+      it('responds with status code 400 if the article is not provided', done => {
+        request(server)
+          .get('/api/topics//comments')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(400);
+              expect(res.body.message).to.equal('INVALID URL');
+              done();
+            }
+          });
+      });
+
       it('returns the added comment', done => {
         Articles.findOne({ title: 'Cats are great' })
           .then((article) => {
