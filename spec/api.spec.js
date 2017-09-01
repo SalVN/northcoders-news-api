@@ -42,6 +42,38 @@ describe('API', function () {
             }
           });
       });
+
+      it('it should return an object containing an array with the key topics', done => {
+        request(server)
+          .get('/api/topics')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body).to.be.an('object');
+              expect(res.body.topics).to.be.an('array');
+              expect(res.body.topics[0]).to.be.an('object');
+              done();
+            }
+          });
+      });
+
+      it('should return the expected objects from the database', done => {
+        request(server)
+          .get('/api/topics')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.topics).to.have.lengthOf(3);
+              res.body.topics.forEach(topic => {
+                expect(topic).to.include.keys('title', 'slug', '_id');
+                expect(topic.title).to.be.oneOf(['Football', 'Cats', 'Cooking']);
+                expect(topic.slug).to.be.oneOf(['football', 'cats', 'cooking']);
+                expect(topic._id).to.be.a('string');
+              });
+              done();
+            }
+          });
+      });
     });
 
   });
