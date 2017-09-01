@@ -233,7 +233,7 @@ describe('API', function () {
           });
       });
 
-      xit('should respond with status code 404 if the article_id does not exist', done => {
+      it('should respond with status code 404 if the article_id does not exist', done => {
         request(server)
           .get('/api/articles/5555/comments')
           .end((err, res) => {

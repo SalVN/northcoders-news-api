@@ -9,6 +9,7 @@ module.exports = (req, res, next) => {
             res.status(200).json({ comments });
         })
         .catch(err => {
+            if (err.name === 'CastError') return next({status: 404, message: 'ARTICLE NOT FOUND'});
             next(err);
         });
 };
