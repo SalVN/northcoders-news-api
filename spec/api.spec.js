@@ -101,6 +101,20 @@ describe('API', function () {
             }
           });
       });
+
+      it('should respond with status code 404 if the topic does not exist', done => {
+        request(server)
+          .get('/api/topics/banana/articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(404);
+              expect(res.body.message).to.equal('TOPIC NOT FOUND');
+              done();
+            }
+          });
+      });
+
       it('responds with status code 400 if the topic is not provided', done => {
         request(server)
           .get('/api/topics//articles')
