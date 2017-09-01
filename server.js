@@ -5,9 +5,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
+
 const config = require(path.resolve(__dirname, 'config'));
 const db = config.DB[process.env.NODE_ENV] || process.env.DB;
 const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT;
+
+const router = require(path.resolve(__dirname, 'src', 'router', 'routes'));
 
 mongoose.connect(db, (err) => {
   if (!err) console.log('connected to the Database');
@@ -15,11 +18,8 @@ mongoose.connect(db, (err) => {
 });
 
 app.use(bodyParser.json());
-app.get('/', function (req, res) {
-  res.status(200).send('All good!');
-});
 
-app.use('/api', function () { });
+app.use(router);
 
 app.listen(PORT, function () {
   console.log(`listening on port ${PORT}`);
