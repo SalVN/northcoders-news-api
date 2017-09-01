@@ -11,6 +11,8 @@ router.get('/', function (req, res) {
 router.route('/api/topics')
     .get(controllers.getAllTopics);
 
+router.route('/api/topics/:topic_id/articles')
+    .get(controllers.getAllTopicArticles);
 
 router.use(function (req, res, next) {
     return next({ status: 400, message: 'INVALID URL' });
