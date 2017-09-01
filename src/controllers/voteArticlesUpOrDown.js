@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     if (query.vote === 'up') vote = 1;
     if (query.vote === 'down') vote = -1;
     Articles.findOneAndUpdate({ _id: article_id }, { $inc: { votes: vote } }, { new: true })
-        .then((article) => {
+        .then(article => {
             res.status(200).json({article});
         }).catch(err => {
             next(err);

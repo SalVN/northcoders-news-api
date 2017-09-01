@@ -392,6 +392,7 @@ describe('API', function () {
           });
       });
     });
+
     describe('PUT /api/articles/:article_id', () => {
       it('should respond with status code 200', done => {
         Articles.findOne({ title: 'Cats are great' })
@@ -408,6 +409,68 @@ describe('API', function () {
           });
       });
 
+      it('vote=up should increment the vote count', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .put(`/api/articles/${article._id}?vote=up`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.article._id).to.eql(article._id.toString());
+                  expect(res.body.article.votes).to.equal(1);
+                  done();
+                }
+              });
+          });
+      });
+
+      it('vote=down should decrement the vote count', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .put(`/api/articles/${article._id}?vote=down`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.article._id).to.eql(article._id.toString());
+                  expect(res.body.article.votes).to.equal(-1);
+                  done();
+                }
+              });
+          });
+      });
+
+      it('will respond to multiple vote=up / vote=down requests correctly', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .put(`/api/articles/${article._id}?vote=up`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.article.votes).to.equal(1);
+                  request(server)
+                    .put(`/api/articles/${article._id}?vote=up`)
+                    .end((err, res) => {
+                      if (err) done(err);
+                      else {
+                        expect(res.body.article.votes).to.equal(2);
+                        request(server)
+                          .put(`/api/articles/${article._id}?vote=down`)
+                          .end((err, res) => {
+                            if (err) done(err);
+                            else {
+                              expect(res.body.article.votes).to.equal(1);
+                              done();
+                            }
+                          });
+                      }
+                    });
+                }
+              });
+          });
+      });
     });
   });
 });
