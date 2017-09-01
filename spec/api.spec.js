@@ -315,7 +315,21 @@ describe('API', function () {
 
       });
 
-      it('responds with status code 400 if the article is not provided', done => {
+      it('should respond with status code 404 if the article_id does not exist', done => {
+        request(server)
+          .post('/api/articles/5555/comments')
+          .send({ "body": "this is my comment", "created_by": "Northcoder" })
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(404);
+              expect(res.body.message).to.equal('ARTICLE DOES NOT EXIST');
+              done();
+            }
+          });
+      });
+
+      it('responds with status code 400 if the topic is not provided', done => {
         request(server)
           .get('/api/topics//comments')
           .end((err, res) => {

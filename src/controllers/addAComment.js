@@ -16,6 +16,7 @@ module.exports = (req, res, next) => {
             console.log('saved');
             res.status(201).json({ savedComment });
         }).catch(err => {
+            if (err.name === 'ValidationError') return next({ status: 404, message: 'ARTICLE DOES NOT EXIST' });
             next(err);
         });
 };
