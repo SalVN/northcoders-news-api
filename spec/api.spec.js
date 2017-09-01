@@ -422,6 +422,22 @@ describe('API', function () {
           });
       });
 
+      it('resolves with a status code 422 if the vote query is not valid', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .put(`/api/articles/${article._id}?vote=banana`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.status).to.equal(422);
+                  expect(res.body.message).to.equal('INVALID QUERY');
+                  done();
+                }
+              });
+          });
+      });
+
       it('vote=up should increment the vote count', done => {
         Articles.findOne({ title: 'Cats are great' })
           .then((article) => {

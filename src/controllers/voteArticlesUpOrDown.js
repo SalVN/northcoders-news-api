@@ -6,7 +6,8 @@ module.exports = (req, res, next) => {
     const query = req.query;
     let vote;
     if (query.vote === 'up') vote = 1;
-    if (query.vote === 'down') vote = -1;
+    else if (query.vote === 'down') vote = -1;
+    else return next ({ status: 422, message: 'INVALID QUERY' });
     Articles.findOneAndUpdate({ _id: article_id }, { $inc: { votes: vote } }, { new: true })
         .then(article => {
             res.status(200).json({ article });
