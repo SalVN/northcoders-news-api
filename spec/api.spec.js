@@ -29,5 +29,20 @@ describe('API', function () {
           }
         });
     });
+
+    describe('GET /api/articles', () => {
+      it('responds with status code 200', done => {
+        request(server)
+          .get('/api/topics')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(200);
+              done();
+            }
+          });
+      });
+    });
+
   });
 });
