@@ -5,5 +5,6 @@ mongoose.promise = global.Promise;
 module.exports = {
     getAllTopics: require(path.resolve(__dirname, 'getAllTopics')),
     getAllTopicArticles: require(path.resolve(__dirname, 'getAllTopicArticles')),
-    getAllArticles: require(path.resolve(__dirname, 'getAllArticles'))
+    getAllArticles: require(path.resolve(__dirname, 'getAllArticles')),
+    getAllArticleComments: require(path.resolve(__dirname, 'getAllArticleComments'))
 };

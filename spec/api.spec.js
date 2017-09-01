@@ -1,10 +1,14 @@
 process.env.NODE_ENV = 'test';
+
+const path = require('path');
 const { expect } = require('chai');
 const request = require('supertest');
 const mongoose = require('mongoose');
 const server = require('../server');
 const saveTestData = require('../seed/test.seed');
 mongoose.Promise = global.Promise;
+
+const Articles = require(path.resolve(__dirname, '..', 'models', 'articles'));
 
 describe('API', function () {
   let usefulData;
@@ -216,6 +220,82 @@ describe('API', function () {
       });
     });
 
+    describe('GET /api/articles/:article_id/comments', () => {
+      it('should respond with status code 200', done => {
+        request(server)
+          .get(`/api/articles/${usefulData.articles[0]._id}/comments`)
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(200);
+              done();
+            }
+          });
+      });
+
+      xit('should respond with status code 404 if the article_id does not exist', done => {
+        request(server)
+          .get('/api/articles/5555/comments')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(404);
+              expect(res.body.message).to.equal('ARTICLE NOT FOUND');
+              done();
+            }
+          });
+      });
+
+      it('should respond with status code 400 if the topic is not provided', done => {
+        request(server)
+          .get('/api/topics//comments')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(400);
+              expect(res.body.message).to.equal('INVALID URL');
+              done();
+            }
+          });
+      });
+
+      it('should respond with an array containing objects', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .get(`/api/articles/${article._id}/comments`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body).to.be.an('object');
+                  expect(res.body.comments).to.be.an('array');
+                  expect(res.body.comments[0]).to.be.an('object');
+                  done();
+                }
+              });
+          });
+      });
+
+      it('should respond with an array of comments', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .get(`/api/articles/${article._id}/comments`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.comments).to.have.lengthOf(2);
+                  res.body.comments.forEach(comment => {
+                    expect(comment).to.have.any.keys('_id', 'body', 'belongs_to', 'created_by', 'votes', 'created_at', '_v');
+                    expect(comment.belongs_to).to.equal(article._id.toString());
+                    expect(comment.body).to.be.oneOf(['this is a comment', 'this is another comment']);
+                  });
+                  done();
+                }
+              });
+          });
+      });
+    });
 
   });
 });

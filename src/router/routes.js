@@ -17,6 +17,9 @@ router.route('/api/articles')
 router.route('/api/topics/:topic_id/articles')
     .get(controllers.getAllTopicArticles);
 
+router.route('/api/articles/:article_id/comments')
+    .get(controllers.getAllArticleComments);
+
 router.use(function (req, res, next) {
     return next({ status: 400, message: 'INVALID URL' });
 });
