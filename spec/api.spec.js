@@ -315,6 +315,55 @@ describe('API', function () {
 
       });
 
+      it('returns the added comment', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .post(`/api/articles/${article._id}/comments`)
+              .send({ "body": "this is my comment", "created_by": "Northcoder" })
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body).to.be.an('object');
+                  expect(res.body.savedComment).to.be.an('object');
+                  expect(res.body.savedComment).to.have.any.keys('_id', 'body', 'belongs_to', 'created_by', 'votes', 'created_at', '_v');
+                  expect(res.body.savedComment.body).to.equal('this is my comment');
+                  expect(res.body.savedComment.created_by).to.equal('Northcoder');
+                  expect(res.body.savedComment.belongs_to).to.equal(article._id.toString());
+                }
+                done();
+              });
+          });
+      });
+
+      it('adds the comment to the database', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .post(`/api/articles/${article._id}/comments`)
+              .send({ "body": "this is my comment", "created_by": "northcoder" })
+              .end((err) => {
+                if (err) done(err);
+                else {
+                  request(server)
+                    .get(`/api/articles/${article._id}/comments`)
+                    .end((err, res) => {
+                      if (err) done(err);
+                      else {
+                        expect(res.body).to.be.an('object');
+                        expect(res.body.comments).to.have.lengthOf(3);
+                        res.body.comments.forEach(comment => {
+                          expect(comment).to.be.an('object');
+                          expect(comment.body).to.be.oneOf(['this is a comment', 'this is another comment', 'this is my comment']);
+                          expect(comment.created_by).to.equal('northcoder');
+                        });
+                        done();
+                      }
+                    });
+                }
+              });
+          });
+      });
     });
 
   });
