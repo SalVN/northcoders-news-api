@@ -392,6 +392,22 @@ describe('API', function () {
           });
       });
     });
+    describe('PUT /api/articles/:article_id', () => {
+      it('should respond with status code 200', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .put(`/api/articles/${article._id}?vote=up`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.status).to.equal(200);
+                }
+                done();
+              });
+          });
+      });
 
+    });
   });
 });

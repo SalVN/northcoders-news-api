@@ -21,6 +21,9 @@ router.route('/api/articles/:article_id/comments')
     .get(controllers.getAllArticleComments)
     .post(controllers.addAComment);
 
+router.route('/api/articles/:article_id?')
+    .put(controllers.voteArticlesUpOrDown);
+
 router.use(function (req, res, next) {
     return next({ status: 400, message: 'INVALID URL' });
 });
