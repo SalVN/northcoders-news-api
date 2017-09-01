@@ -297,5 +297,25 @@ describe('API', function () {
       });
     });
 
+    describe('POST /api/articles/:article_id/comments', () => {
+      it('should respond with status code 201', done => {
+        Articles.findOne({ title: 'Cats are great' })
+          .then((article) => {
+            request(server)
+              .post(`/api/articles/${article._id}/comments`)
+              .send({ "body": "this is my comment", "created_by": "Northcoder" })
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.status).to.equal(201);
+                }
+                done();
+              });
+          });
+
+      });
+
+    });
+
   });
 });

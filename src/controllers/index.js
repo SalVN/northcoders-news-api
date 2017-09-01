@@ -6,5 +6,6 @@ module.exports = {
     getAllTopics: require(path.resolve(__dirname, 'getAllTopics')),
     getAllTopicArticles: require(path.resolve(__dirname, 'getAllTopicArticles')),
     getAllArticles: require(path.resolve(__dirname, 'getAllArticles')),
-    getAllArticleComments: require(path.resolve(__dirname, 'getAllArticleComments'))
+    getAllArticleComments: require(path.resolve(__dirname, 'getAllArticleComments')),
+    addAComment: require(path.resolve(__dirname, 'addAComment'))
 };
