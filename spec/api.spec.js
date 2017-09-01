@@ -518,6 +518,67 @@ describe('API', function () {
               });
           });
       });
+
+      it('vote=up should increment the vote count', done => {
+        Comments.findOne({ body: 'this is a comment' })
+          .then((comment) => {
+            request(server)
+              .put(`/api/comments/${comment._id}?vote=up`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.comment.votes).to.equal(1);
+                  done();
+                }
+              });
+          });
+      });
+
+      it('vote=down should decrement the vote count', done => {
+        Comments.findOne({ body: 'this is a comment' })
+          .then((comment) => {
+            request(server)
+              .put(`/api/comments/${comment._id}?vote=down`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.comment.votes).to.equal(-1);
+                  done();
+                }
+              });
+          });
+      });
+
+      it('will respond to multiple vote=up / vote=down requests correctly', done => {
+        Comments.findOne({ body: 'this is a comment' })
+          .then((comment) => {
+            request(server)
+              .put(`/api/comments/${comment._id}?vote=up`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.comment.votes).to.equal(1);
+                  request(server)
+                    .put(`/api/comments/${comment._id}?vote=up`)
+                    .end((err, res) => {
+                      if (err) done(err);
+                      else {
+                        expect(res.body.comment.votes).to.equal(2);
+                        request(server)
+                          .put(`/api/comments/${comment._id}?vote=down`)
+                          .end((err, res) => {
+                            if (err) done(err);
+                            else {
+                              expect(res.body.comment.votes).to.equal(1);
+                              done();
+                            }
+                          });
+                      }
+                    });
+                }
+              });
+          });
+      });
     });
 
   });

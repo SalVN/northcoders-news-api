@@ -33,7 +33,7 @@ describe('defineQueryVote', () => {
         const reqEmpty = {
             query: { vote: '' }
         };
-        const next = (obj) => { return obj };
+        const next = (obj) => { return obj; };
         expect(defineQueryVote(req, null, next)).to.eql({ status: 422, message: 'INVALID QUERY' });
         expect(defineQueryVote(reqEmpty, null, next)).to.eql({ status: 422, message: 'INVALID QUERY' });
     });
