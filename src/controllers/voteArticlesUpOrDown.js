@@ -9,8 +9,9 @@ module.exports = (req, res, next) => {
     if (query.vote === 'down') vote = -1;
     Articles.findOneAndUpdate({ _id: article_id }, { $inc: { votes: vote } }, { new: true })
         .then(article => {
-            res.status(200).json({article});
+            res.status(200).json({ article });
         }).catch(err => {
+            if (err.name === 'CastError') return next({ status: 404, message: 'ARTICLE NOT FOUND' });
             next(err);
         });
 };

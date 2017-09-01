@@ -409,6 +409,19 @@ describe('API', function () {
           });
       });
 
+      it('responds with status code 404 if the article_id does not exist', done => {
+        request(server)
+          .put('/api/articles/555?vote=up')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(404);
+              expect(res.body.message).to.equal('ARTICLE NOT FOUND');
+              done();
+            }
+          });
+      });
+
       it('vote=up should increment the vote count', done => {
         Articles.findOne({ title: 'Cats are great' })
           .then((article) => {
