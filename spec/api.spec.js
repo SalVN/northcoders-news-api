@@ -532,6 +532,22 @@ describe('API', function () {
           });
       });
 
+      it('responds with a status code 422 if the vote query is not valid', done => {
+        Comments.findOne({ body: 'this is a comment' })
+          .then((comment) => {
+            request(server)
+              .put(`/api/comments/${comment._id}?vote=banana`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.status).to.equal(422);
+                  expect(res.body.message).to.equal('INVALID QUERY');
+                  done();
+                }
+              });
+          });
+      });
+
       it('vote=up should increment the vote count', done => {
         Comments.findOne({ body: 'this is a comment' })
           .then((comment) => {
