@@ -13,7 +13,6 @@ describe('API', function () {
       .then(saveTestData)
       .then(data => {
         usefulData = data;
-        console.log(usefulData);
         done();
       })
       .catch(done);
