@@ -612,5 +612,23 @@ describe('API', function () {
       });
     });
 
+    describe('DELETE /api/comments/:comment_id', () => {
+      it('should respond with status code 200', done => {
+        Comments.findOne({ body: 'this is a comment' })
+          .then((comment) => {
+            request(server)
+              .delete(`/api/comments/${comment._id}`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.status).to.equal(200);
+                }
+                done();
+              });
+          });
+      });
+
+    });
+
   });
 });

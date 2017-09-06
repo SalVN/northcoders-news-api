@@ -27,6 +27,9 @@ router.route('/api/articles/:article_id?')
 router.route('/api/comments/:comment_id?')
     .put(controllers.voteCommentsUpOrDown);
 
+router.route('/api/comments/:comment_id')
+    .delete(controllers.deleteComment);
+
 router.use(function (req, res, next) {
     return next({ status: 400, message: 'INVALID URL' });
 });
