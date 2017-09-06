@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
         res.status(200).json({deletedComment});
     }) 
     .catch(err => {
+        if (err.name === 'CastError') return next({ status: 404, message: 'COMMENT NOT FOUND'});
         next(err);
     });
 };

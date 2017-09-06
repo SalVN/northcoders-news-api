@@ -641,6 +641,19 @@ describe('API', function () {
           });
       });
 
+      it('responds with status code 404 if the comment_id does not exist', done => {
+        request(server)
+          .delete('/api/comments/555')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(404);
+              expect(res.body.message).to.equal('COMMENT NOT FOUND');
+              done();
+            }
+          });
+      });
+
       it('should return the deleted comment', done => {
         Comments.findOne({ body: 'this is a comment' })
           .then((comment) => {
