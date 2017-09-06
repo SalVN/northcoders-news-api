@@ -154,7 +154,7 @@ describe('API', function () {
             if (err) done(err);
             else {
               expect(res.body.articles).to.have.lengthOf(1);
-              expect(res.body.articles[0]).to.have.any.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes');
+              expect(res.body.articles[0]).to.have.any.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes', 'comment_count');
               expect(res.body.articles[0].belongs_to).to.equal('football');
               done();
             }
@@ -168,8 +168,20 @@ describe('API', function () {
             if (err) done(err);
             else {
               expect(res.body.articles).to.have.lengthOf(1);
-              expect(res.body.articles[0]).to.have.any.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes');
+              expect(res.body.articles[0]).to.have.any.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes', 'comment_count');
               expect(res.body.articles[0].belongs_to).to.equal('cats');
+              done();
+            }
+          });
+      });
+
+      it('should respond with an array of cats articles which includes a comment count', done => {
+        request(server)
+          .get('/api/topics/cats/articles')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.articles[0].comment_count).to.equal(2);
               done();
             }
           });
