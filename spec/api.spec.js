@@ -722,6 +722,19 @@ describe('API', function () {
                 });
         });
 
+        it('responds with status code 404 if the username does not exist', done => {
+            request(server)
+                .get(`/api/users/abcde`)
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(404);
+                        expect(res.body.message).to.equal('USER NOT FOUND');
+                        done();
+                    }
+                });
+        });
+
         it('should return the user profile', done => {
             request(server)
                 .get(`/api/users/northcoder`)
