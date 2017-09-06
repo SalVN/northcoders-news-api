@@ -628,6 +628,19 @@ describe('API', function () {
           });
       });
 
+      it('responds with status code 400 if the comment_id is not provided', done => {
+        request(server)
+          .delete('/api/comments/')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(400);
+              expect(res.body.message).to.equal('INVALID URL');
+              done();
+            }
+          });
+      });
+
       it('should return the deleted comment', done => {
         Comments.findOne({ body: 'this is a comment' })
           .then((comment) => {

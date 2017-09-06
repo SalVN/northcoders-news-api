@@ -2,7 +2,6 @@ const path = require('path');
 const {Comments} = require(path.resolve(__dirname, '../..', 'models', 'models'));
 
 module.exports = (req, res, next) => {
-    console.log('here');
     const {comment_id} = req.params;
     Comments.findByIdAndRemove(comment_id)
     .then(deletedComment => {
