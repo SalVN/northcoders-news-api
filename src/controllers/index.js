@@ -10,5 +10,6 @@ module.exports = {
     addAComment: require(path.resolve(__dirname, 'addAComment')),
     voteArticlesUpOrDown: require(path.resolve(__dirname, 'voteArticlesUpOrDown')),
     voteCommentsUpOrDown: require(path.resolve(__dirname, 'voteCommentsUpOrDown')),
-    deleteComment: require(path.resolve(__dirname, 'deleteComment'))
+    deleteComment: require(path.resolve(__dirname, 'deleteComment')),
+    getUserByUsername: require(path.resolve(__dirname, 'getUserByUsername'))
 };

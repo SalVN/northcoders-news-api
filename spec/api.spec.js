@@ -696,5 +696,20 @@ describe('API', function () {
 
     });
 
+    describe(`GET /api/users/:username`, () => {
+        it('responds with status code 200', done => {
+            request(server)
+                .get(`/api/users/northcoder`)
+                .end((err, res) => {
+                    if (err) done(err);
+                    else {
+                        expect(res.status).to.equal(200);
+                    }
+                    done();
+                });
+        });
+
+    });
+
   });
 });

@@ -30,6 +30,9 @@ router.route('/api/comments/:comment_id?')
 router.route('/api/comments/:comment_id')
     .delete(controllers.deleteComment);
 
+router.route('/api/users/:username')
+    .get(controllers.getUserByUsername);
+
 router.use(function (req, res, next) {
     return next({ status: 400, message: 'INVALID URL' });
 });
