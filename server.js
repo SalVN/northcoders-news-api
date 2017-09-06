@@ -4,6 +4,7 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 
 const config = require(path.resolve(__dirname, 'config'));
@@ -11,6 +12,7 @@ const db = config.DB[process.env.NODE_ENV] || process.env.DB;
 const PORT = config.PORT[process.env.NODE_ENV] || process.env.PORT;
 
 const router = require(path.resolve(__dirname, 'src', 'router', 'routes'));
+app.use(cors());
 
 mongoose.connect(db, (err) => {
   if (!err) console.log('connected to the Database');

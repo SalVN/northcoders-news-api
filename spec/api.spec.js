@@ -195,6 +195,7 @@ describe('API', function () {
           .end((err, res) => {
             if (err) done(err);
             else {
+              console.log(res);
               expect(res.status).to.equal(200);
               done();
             }
