@@ -628,6 +628,46 @@ describe('API', function () {
           });
       });
 
+      it('should return the deleted comment', done => {
+        Comments.findOne({ body: 'this is a comment' })
+          .then((comment) => {
+            request(server)
+              .delete(`/api/comments/${comment._id}`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body).to.be.an('object');
+                  expect(res.body.deletedComment).to.be.an('object');
+                  expect(res.body.deletedComment.body).to.equal('this is a comment');
+                }
+                done();
+              });
+          });
+      });
+
+      it('should remove the comment from the database', done => {
+        Comments.findOne({ body: 'this is a comment' })
+          .then((comment) => {
+            request(server)
+              .delete(`/api/comments/${comment._id}`)
+              .end((err) => {
+                if (err) done(err);
+                else {
+                  request(server)
+                    .get(`/api/articles/${comment.belongs_to}/comments`)
+                    .end((err, res) => {
+                      if (err) done(err);
+                      else {
+                        expect(res.body.comments).to.have.lengthOf(1);
+                        expect(res.body.comments.body).to.not.equal('this is a comment');
+                        done();
+                      }
+                    });
+                }
+              });
+          });
+      });
+
     });
 
   });
