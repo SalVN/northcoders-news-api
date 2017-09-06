@@ -1,7 +1,7 @@
 const path = require('path');
 
 const { Articles } = require(path.resolve(__dirname, '../..', 'models', 'models'));
-const { Comments } = require(path.resolve(__dirname, '../..', 'models', 'models'));
+const {findArticleCommentCount, addArticleCommentCount} = require(path.resolve(__dirname, '..', 'utilities', 'addCommentCount'));
 
 module.exports = (req, res, next) => {
     Articles.find({})
@@ -16,17 +16,3 @@ module.exports = (req, res, next) => {
             next(err);
         });
 };
-
-function findArticleCommentCount(articles) {
-    return articles.map(user => {
-        return Comments.count({ belongs_to: user._id });
-    });
-}
-
-function addArticleCommentCount (articles, commentCounts) {
-    return articles.map((article, i) => {
-        article = article.toObject();
-        article.comment_count = commentCounts[i];
-        return article;
-    });
-}
