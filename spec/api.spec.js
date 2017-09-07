@@ -48,7 +48,7 @@ describe('API', function () {
         });
     });
 
-    describe('GET /api/articles', () => {
+    describe('GET /api/topics', () => {
       it('responds with status code 200', done => {
         request(server)
           .get('/api/topics')
@@ -195,7 +195,6 @@ describe('API', function () {
           .end((err, res) => {
             if (err) done(err);
             else {
-              console.log(res);
               expect(res.status).to.equal(200);
               done();
             }
@@ -782,6 +781,51 @@ describe('API', function () {
             }
           });
       });
+    });
+
+    describe('GET /api/users', () => {
+      it('should respond with status code 200', done => {
+        request(server)
+          .get('/api/users')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.status).to.equal(200);
+              done();
+            }
+          });
+      });
+
+      it('it should return an object containing an array with the key "users"', done => {
+        request(server)
+          .get('/api/users')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body).to.be.an('object');
+              expect(res.body.users).to.be.an('array');
+              expect(res.body.users[0]).to.be.an('object');
+              done();
+            }
+          });
+      });
+
+      it('should respond with an array of users', done => {
+        request(server)
+          .get('/api/users')
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.users).to.have.lengthOf(1);
+              expect(res.body.users[0]).to.include.keys('_id', 'username', 'name', 'avatar_url', '__v');
+              expect(res.body.users[0].username).to.equal('northcoder');
+              expect(res.body.users[0].name).to.equal('Awesome Northcoder');
+              expect(res.body.users[0].avatar_url).to.equal('https://avatars3.githubusercontent.com/u/6791502?v=3&s=200');
+              done();
+            }
+          });
+      });
+
     });
 
   });

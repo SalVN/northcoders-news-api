@@ -30,6 +30,9 @@ router.route('/api/comments/:comment_id?')
 router.route('/api/comments/:comment_id')
     .delete(controllers.deleteComment);
 
+router.route('/api/users')
+    .get(controllers.getUsers);
+
 router.route('/api/users/:username')
     .get(controllers.getUserByUsername);
 
