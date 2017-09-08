@@ -816,6 +816,7 @@ describe('API', function () {
           .end((err, res) => {
             if (err) done(err);
             else {
+              console.log(res.body.users);
               expect(res.body.users).to.have.lengthOf(1);
               expect(res.body.users[0]).to.include.keys('_id', 'username', 'name', 'avatar_url', '__v');
               expect(res.body.users[0].username).to.equal('northcoder');
