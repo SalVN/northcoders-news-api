@@ -532,6 +532,48 @@ describe('API', function () {
               });
           });
       });
+
+      it('vote=up should return the updated article object', done => {
+        let chosenArticle;
+        Articles.findOne({ title: 'Cats are great' })
+          .then(article => {
+            chosenArticle = article;
+            request(server)
+              .put(`/api/articles/${article._id}?vote=up`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.article).to.include.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes', 'comment_count');
+                  expect(res.body.article.title).to.equal(chosenArticle.title);
+                  expect(res.body.article.body).to.equal(chosenArticle.body);
+                  expect(res.body.article.belongs_to).to.equal(chosenArticle.belongs_to);
+                  expect(res.body.article.comment_count).to.equal(2);
+                  done();
+                }
+              });
+          });
+      });
+
+      it('vote=down should return the updated article object', done => {
+        let chosenArticle;
+        Articles.findOne({ title: 'Cats are great' })
+          .then(article => {
+            chosenArticle = article;
+            request(server)
+              .put(`/api/articles/${article._id}?vote=down`)
+              .end((err, res) => {
+                if (err) done(err);
+                else {
+                  expect(res.body.article).to.include.keys('_id', 'title', 'body', 'belongs_to', '__v', 'votes', 'comment_count');
+                  expect(res.body.article.title).to.equal(chosenArticle.title);
+                  expect(res.body.article.body).to.equal(chosenArticle.body);
+                  expect(res.body.article.belongs_to).to.equal(chosenArticle.belongs_to);
+                  expect(res.body.article.comment_count).to.equal(2);
+                  done();
+                }
+              });
+          });
+      });
     });
 
     describe('PUT /api/comments/:comment_id', () => {
@@ -816,7 +858,6 @@ describe('API', function () {
           .end((err, res) => {
             if (err) done(err);
             else {
-              console.log(res.body.users);
               expect(res.body.users).to.have.lengthOf(1);
               expect(res.body.users[0]).to.include.keys('_id', 'username', 'name', 'avatar_url', '__v');
               expect(res.body.users[0].username).to.equal('northcoder');
