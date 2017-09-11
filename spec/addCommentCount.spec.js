@@ -184,7 +184,7 @@ describe('findOneCommentCountUser', () => {
         findOneCommentCountUser(user)
             .then(result => {
                 expect(result).to.be.a('number');
-                expect(result).to.eql(2);
+                expect(result).to.equal(2);
                 done();
             })
             .catch(err => {

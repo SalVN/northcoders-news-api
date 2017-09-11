@@ -30,8 +30,8 @@ function saveArticles() {
 
 function saveComments(articles) {
   const comments = [
-    { body: 'this is a comment', belongs_to: articles[0]._id, created_by: 'northcoder' },
-    { body: 'this is another comment', belongs_to: articles[0]._id, created_by: 'northcoder' }
+    { body: 'this is a comment', belongs_to: articles[0]._id, created_by: 'northcoder', votes: 6 },
+    { body: 'this is another comment', belongs_to: articles[0]._id, created_by: 'northcoder', votes: 5 }
   ].map(c => new models.Comments(c).save());
   return Promise.all(comments);
 }

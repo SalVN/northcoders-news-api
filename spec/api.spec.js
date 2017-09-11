@@ -630,7 +630,7 @@ describe('API', function () {
                 if (err) done(err);
                 else {
                   expect(res.body.comment._id).to.eql(comment._id.toString());
-                  expect(res.body.comment.votes).to.equal(1);
+                  expect(res.body.comment.votes).to.equal(7);
                   done();
                 }
               });
@@ -646,7 +646,7 @@ describe('API', function () {
                 if (err) done(err);
                 else {
                   expect(res.body.comment._id).to.eql(comment._id.toString());
-                  expect(res.body.comment.votes).to.equal(-1);
+                  expect(res.body.comment.votes).to.equal(5);
                   done();
                 }
               });
@@ -661,19 +661,19 @@ describe('API', function () {
               .end((err, res) => {
                 if (err) done(err);
                 else {
-                  expect(res.body.comment.votes).to.equal(1);
+                  expect(res.body.comment.votes).to.equal(7);
                   request(server)
                     .put(`/api/comments/${comment._id}?vote=up`)
                     .end((err, res) => {
                       if (err) done(err);
                       else {
-                        expect(res.body.comment.votes).to.equal(2);
+                        expect(res.body.comment.votes).to.equal(8);
                         request(server)
                           .put(`/api/comments/${comment._id}?vote=down`)
                           .end((err, res) => {
                             if (err) done(err);
                             else {
-                              expect(res.body.comment.votes).to.equal(1);
+                              expect(res.body.comment.votes).to.equal(7);
                               done();
                             }
                           });

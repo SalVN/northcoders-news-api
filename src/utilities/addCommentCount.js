@@ -27,3 +27,7 @@ exports.addOneCommentCount = function (obj, commentCount) {
 exports.findOneCommentCountUser = function (obj) {
     return Comments.count({created_by: obj.username});
 };
+
+exports.findOneVoteCountComments = function (obj) {
+    return Comments.find({created_by: obj.username});
+};
