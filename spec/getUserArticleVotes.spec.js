@@ -70,13 +70,11 @@ describe('calculateUserArticleVotes', () => {
     });
 });
 
-describe('addUserCommentVotes', () => {
-    let usefulData;
+describe('addUserArticleVotes', () => {
     beforeEach(done => {
         mongoose.connection.dropDatabase()
             .then(saveTestData)
-            .then(data => {
-                usefulData = data;
+            .then(() => {
                 done();
             })
             .catch(done);
@@ -86,7 +84,12 @@ describe('addUserCommentVotes', () => {
     });
 
     it('should return the user with a comment_votes key', () => {
-        const user = usefulData.user;
+        const user = {
+            __v: 0,
+            username: 'northcoder',
+            name: 'Awesome Northcoder',
+            avatar_url: 'https://avatars3.githubusercontent.com/u/6791502?v=3&s=200',
+            _id: '59b69737305d5114710757d6' };
         const result = addUserArticleVotes(user, 13);
         expect(result).to.be.an('object');
         expect(result).to.include.keys('_id', 'name', 'username', 'avatar_url', '__v', 'articles_vote_count');

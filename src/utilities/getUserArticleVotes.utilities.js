@@ -13,7 +13,6 @@ exports.calculateUserArticleVotes = function (articles) {
 };
 
 exports.addUserArticleVotes = function (user, voteCount) {
-    user = user.toObject();
     user.articles_vote_count = voteCount;
     return user;
 };

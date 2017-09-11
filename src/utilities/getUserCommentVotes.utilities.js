@@ -13,7 +13,6 @@ exports.calculateUserCommentVotes = function (comments) {
 };
 
 exports.addUserCommentVotes = function (user, voteCount) {
-    user = user.toObject();
     user.comments_vote_count = voteCount;
     return user;
 };
