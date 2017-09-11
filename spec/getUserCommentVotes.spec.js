@@ -79,7 +79,7 @@ describe('addUserCommentVotes', () => {
         const user = usefulData.user;
         const result = addUserCommentVotes(user, 13);
         expect(result).to.be.an('object');
-        expect(result).to.include.keys('_id', 'name', 'username', 'avatar_url', '__v', 'vote_count');
-        expect(result.vote_count).to.equal(13);
+        expect(result).to.include.keys('_id', 'name', 'username', 'avatar_url', '__v', 'comments_vote_count');
+        expect(result.comments_vote_count).to.equal(13);
     });
 });
