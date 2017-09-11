@@ -861,7 +861,7 @@ describe('API', function () {
       });
     });
 
-    describe('GET /api/users', () => {
+    describe.only('GET /api/users', () => {
       it('should respond with status code 200', done => {
         request(server)
           .get('/api/users')

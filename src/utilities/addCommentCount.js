@@ -28,6 +28,12 @@ exports.findOneCommentCountUser = function (obj) {
     return Comments.count({created_by: obj.username});
 };
 
+exports.findArrayCommentCountUser = function (array) {
+    return array.map(user => {
+        return Comments.count({created_by: user.username});
+    });
+};
+
 exports.findOneVoteCountComments = function (obj) {
     return Comments.find({created_by: obj.username});
 };
