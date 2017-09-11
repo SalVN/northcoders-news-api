@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 
 const { getUserArticles, calculateUserArticleVotes, addUserArticleVotes } = require(path.resolve(__dirname, '..', 'src', 'utilities/getUserArticleVotes.utilities'));
 
-describe.only('getUserArticles', () => {
+describe('getUserArticles', () => {
     before(done => {
         mongoose.connection.dropDatabase()
             .then(saveTestData)
@@ -38,7 +38,7 @@ describe.only('getUserArticles', () => {
     });
 });
 
-describe.only('calculateUserArticleVotes', () => {
+describe('calculateUserArticleVotes', () => {
     const articles = [{
         _id: '59b01acf006c8dbca914672f',
         title: 'Football is fun',
@@ -70,7 +70,7 @@ describe.only('calculateUserArticleVotes', () => {
     });
 });
 
-describe.only('addUserCommentVotes', () => {
+describe('addUserCommentVotes', () => {
     let usefulData;
     beforeEach(done => {
         mongoose.connection.dropDatabase()
