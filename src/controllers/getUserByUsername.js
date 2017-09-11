@@ -6,6 +6,8 @@ module.exports = (req, res, next) => {
     Users.findOne({ username: username })
         .then(user => {
             if (user === null) return next({ status: 404, message: 'USER NOT FOUND' });
+            // user = user.toObject();
+            // findOneCommentCount (user)
             res.status(200).json({ user });
         })
         .catch(err => {

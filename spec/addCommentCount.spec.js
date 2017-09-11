@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const saveTestData = require('../seed/test.seed');
 mongoose.Promise = global.Promise;
 
-const { findArrayCommentCount, addArrayCommentCount, findOneCommentCount, addOneCommentCount } = require(path.resolve(__dirname, '..', 'src', 'utilities/addCommentCount'));
+const { findArrayCommentCount, addArrayCommentCount, findOneCommentCount, addOneCommentCount, findOneCommentCountUser } = require(path.resolve(__dirname, '..', 'src', 'utilities/addCommentCount'));
 
 describe('findArrayCommentCount', () => {
     let usefulData;
@@ -160,5 +160,47 @@ describe('addOneCommentCount', () => {
         const article = usefulData.articles[0];
         const result = addOneCommentCount(article, 3);
         expect(result.comment_count).to.equal(3);
+    });
+});
+
+describe('findOneCommentCountUser', () => {
+    let usefulData;
+    beforeEach(done => {
+        mongoose.connection.dropDatabase()
+            .then(saveTestData)
+            .then(data => {
+                usefulData = data;
+                done();
+            })
+            .catch(done);
+    });
+
+    it('is a function', () => {
+        expect(findOneCommentCountUser).to.be.a('function');
+    });
+
+    it('should return the comment count the of article', done => {
+        const user = usefulData.user;
+        findOneCommentCountUser(user)
+            .then(result => {
+                expect(result).to.be.a('number');
+                expect(result).to.eql(2);
+                done();
+            })
+            .catch(err => {
+                done(err);
+            });
+    });
+
+    it('should return 0 if the input is an empty object', done => {
+        findOneCommentCountUser({})
+            .then(result => {
+                expect(result).to.be.a('number');
+                expect(result).to.eql(0);
+                done();
+            })
+            .catch(err => {
+                done(err);
+            });
     });
 });
