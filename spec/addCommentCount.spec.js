@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 const saveTestData = require('../seed/test.seed');
 mongoose.Promise = global.Promise;
 
-const { findArticleCommentCount, addArticleCommentCount } = require(path.resolve(__dirname, '..', 'src', 'utilities/addCommentCount'));
+const { findArrayCommentCount, addArrayCommentCount, findOneCommentCount, addOneCommentCount } = require(path.resolve(__dirname, '..', 'src', 'utilities/addCommentCount'));
 
-describe('findArticleCommentCount', () => {
+describe('findArrayCommentCount', () => {
     let usefulData;
     beforeEach(done => {
         mongoose.connection.dropDatabase()
@@ -21,12 +21,12 @@ describe('findArticleCommentCount', () => {
     });
 
     it('is a function', () => {
-        expect(findArticleCommentCount).to.be.a('function');
+        expect(findArrayCommentCount).to.be.a('function');
     });
 
     it('should return the comment count the of articles in an array', done => {
         const articles = usefulData.articles;
-        Promise.all(findArticleCommentCount(articles))
+        Promise.all(findArrayCommentCount(articles))
             .then(result => {
                 expect(result).to.be.an('array');
                 expect(result).to.eql([2, 0]);
@@ -38,7 +38,7 @@ describe('findArticleCommentCount', () => {
     });
 
     it('should return an empty array if the input is an empty array', done => {
-        Promise.all(findArticleCommentCount([]))
+        Promise.all(findArrayCommentCount([]))
             .then(result => {
                 expect(result).to.be.an('array');
                 expect(result).to.eql([]);
@@ -50,7 +50,7 @@ describe('findArticleCommentCount', () => {
     });
 });
 
-describe('addArticleCommentCount', () => {
+describe('addArrayCommentCount', () => {
     let usefulData;
     beforeEach(done => {
         mongoose.connection.dropDatabase()
@@ -63,7 +63,7 @@ describe('addArticleCommentCount', () => {
     });
 
     it('is a function', () => {
-        expect(addArticleCommentCount).to.be.a('function');
+        expect(addArrayCommentCount).to.be.a('function');
     });
 
     it('should return the article with a comment count key', () => {
@@ -71,7 +71,7 @@ describe('addArticleCommentCount', () => {
         articles.forEach(article => {
             expect(article).to.not.include.keys('comment_count');
         });
-        const result = addArticleCommentCount(articles, [3, 1]);
+        const result = addArrayCommentCount(articles, [3, 1]);
         result.forEach(article => {
             expect(article).to.include.all.keys('comment_count');
         });
@@ -79,7 +79,7 @@ describe('addArticleCommentCount', () => {
 
     it('should return the the correct comment count as part of the article object', () => {
         const articles = usefulData.articles;
-        const result = addArticleCommentCount(articles, [3, 1]);
+        const result = addArrayCommentCount(articles, [3, 1]);
         result.forEach(article => {
             if (article.title === 'Cats are great') {
                 expect(article.comment_count).to.equal(3);
@@ -89,5 +89,76 @@ describe('addArticleCommentCount', () => {
             }
         });
     });
+});
 
+describe('findOneCommentCount', () => {
+    let usefulData;
+    beforeEach(done => {
+        mongoose.connection.dropDatabase()
+            .then(saveTestData)
+            .then(data => {
+                usefulData = data;
+                done();
+            })
+            .catch(done);
+    });
+
+    it('is a function', () => {
+        expect(findOneCommentCount).to.be.a('function');
+    });
+
+    it('should return the comment count the of article', done => {
+        const article = usefulData.articles[0];
+        findOneCommentCount(article)
+            .then(result => {
+                expect(result).to.be.a('number');
+                expect(result).to.eql(2);
+                done();
+            })
+            .catch(err => {
+                done(err);
+            });
+    });
+
+    it('should return 0 if the input is an empty object', done => {
+        findOneCommentCount({})
+            .then(result => {
+                expect(result).to.be.a('number');
+                expect(result).to.eql(0);
+                done();
+            })
+            .catch(err => {
+                done(err);
+            });
+    });
+});
+
+describe('addOneCommentCount', () => {
+    let usefulData;
+    beforeEach(done => {
+        mongoose.connection.dropDatabase()
+            .then(saveTestData)
+            .then(data => {
+                usefulData = data;
+                done();
+            })
+            .catch(done);
+    });
+
+    it('is a function', () => {
+        expect(addOneCommentCount).to.be.a('function');
+    });
+
+    it('should return the article with a comment count key', () => {
+        const article = usefulData.articles[0];
+        expect(article).to.not.include.keys('comment_count');
+        const result = addOneCommentCount(article, 3);
+        expect(result).to.include.all.keys('comment_count');
+    });
+
+    it('should return the the correct comment count as part of the article object', () => {
+        const article = usefulData.articles[0];
+        const result = addOneCommentCount(article, 3);
+        expect(result.comment_count).to.equal(3);
+    });
 });

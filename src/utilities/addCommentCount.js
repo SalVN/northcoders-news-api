@@ -1,16 +1,25 @@
 const path = require('path');
 const { Comments } = require(path.resolve(__dirname, '../..', 'models', 'models'));
 
-exports.findArticleCommentCount = function (articles) {
-    return articles.map(user => {
+exports.findArrayCommentCount = function (array) {
+    return array.map(user => {
         return Comments.count({ belongs_to: user._id });
     });
 };
 
-exports.addArticleCommentCount = function (articles, commentCounts) {
-    return articles.map((article, i) => {
-        article = article.toObject();
-        article.comment_count = commentCounts[i];
-        return article;
+exports.addArrayCommentCount = function (array, commentCounts) {
+    return array.map((el, i) => {
+        el = el.toObject();
+        el.comment_count = commentCounts[i];
+        return el;
     });
+};
+
+exports.findOneCommentCount = function (obj) {
+    return Comments.count({belongs_to: obj._id});
+};
+
+exports.addOneCommentCount = function (obj, commentCount) {
+    obj.comment_count = commentCount;
+    return obj;
 };

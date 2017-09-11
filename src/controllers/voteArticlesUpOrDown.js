@@ -1,8 +1,7 @@
 const path = require('path');
 const { Articles } = require(path.resolve(__dirname, '../..', 'models', 'models'));
-// const { findArticleCommentCount } = require(path.resolve(__dirname, '..', 'utilities', 'addCommentCount'));
+const { findOneCommentCount, addOneCommentCount } = require(path.resolve(__dirname, '..', 'utilities', 'addCommentCount'));
 const defineQueryVote = require(path.resolve(__dirname, '..', 'utilities', 'defineQueryVote'));
-const { Comments } = require(path.resolve(__dirname, '../..', 'models', 'models'));
 
 module.exports = (req, res, next) => {
     const { article_id } = req.params;
@@ -10,10 +9,10 @@ module.exports = (req, res, next) => {
     Articles.findOneAndUpdate({ _id: article_id }, { $inc: { votes: vote } }, { new: true })
         .then(article => {
             article = article.toObject();
-            Comments.count({ belongs_to: article._id })
+            findOneCommentCount (article)
                 .then(commentCount => {
-                    article.comment_count = commentCount;
-                    res.status(200).json({ article });
+                    let updatedArticle = addOneCommentCount(article, commentCount);
+                    res.status(200).json({ article: updatedArticle });
                 });
         })
         .catch(err => {
