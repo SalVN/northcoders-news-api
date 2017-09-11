@@ -816,9 +816,21 @@ describe('API', function () {
             else {
               expect(res.body).to.be.an('object');
               expect(res.body.user).to.be.an('object');
-              expect(res.body.user).to.include.keys('_id', 'name', 'username', 'avatar_url');
+              expect(res.body.user).to.include.keys('_id', 'name', 'username', 'avatar_url', 'comment_count');
               expect(res.body.user.name).to.equal('Awesome Northcoder');
               expect(res.body.user.username).to.equal('northcoder');
+              done();
+            }
+          });
+      });
+
+      it('should include the correct comment_count', done => {
+        request(server)
+          .get(`/api/users/northcoder`)
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.user.comment_count).to.equal(2);
               done();
             }
           });
