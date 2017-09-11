@@ -4,3 +4,10 @@ const { Comments } = require(path.resolve(__dirname, '../..', 'models', 'models'
 exports.getUserComments = function (user) {
     return Comments.find({created_by: user});
 };
+
+exports.calculateUserCommentVotes = function (comments) {
+    return comments.reduce((acc, comment) => {
+        acc += comment.votes;
+        return acc;
+    }, 0);
+};
