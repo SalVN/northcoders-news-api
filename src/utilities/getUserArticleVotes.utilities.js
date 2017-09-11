@@ -19,7 +19,7 @@ exports.addUserArticleVotes = function (user, voteCount) {
 
 exports.getArrayArticles = function (array) {
     return array.map(user => {
-        return Articles.find({ created_by: user._id });
+        return Articles.find({ created_by: user.username });
     });
 };
 
@@ -30,11 +30,10 @@ function calculateUserArticleVotes (articles) {
     }, 0);
 }
 
-exports.addArrayCommentVotes = function (users, articles) {
+exports.addArrayArticleVotes = function (users, articles) {
     return users.map((el, i) => {
         const votes = calculateUserArticleVotes(articles[i]);
-        el = el.toObject();
-        el.comment_count = votes;
+        el.articles_vote_count = votes;
         return el;
     });
 };

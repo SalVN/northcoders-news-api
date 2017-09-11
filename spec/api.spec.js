@@ -479,7 +479,7 @@ describe('API', function () {
                 if (err) done(err);
                 else {
                   expect(res.body.article._id).to.eql(article._id.toString());
-                  expect(res.body.article.votes).to.equal(1);
+                  expect(res.body.article.votes).to.equal(9);
                   done();
                 }
               });
@@ -495,7 +495,7 @@ describe('API', function () {
                 if (err) done(err);
                 else {
                   expect(res.body.article._id).to.eql(article._id.toString());
-                  expect(res.body.article.votes).to.equal(-1);
+                  expect(res.body.article.votes).to.equal(7);
                   done();
                 }
               });
@@ -510,19 +510,19 @@ describe('API', function () {
               .end((err, res) => {
                 if (err) done(err);
                 else {
-                  expect(res.body.article.votes).to.equal(1);
+                  expect(res.body.article.votes).to.equal(9);
                   request(server)
                     .put(`/api/articles/${article._id}?vote=up`)
                     .end((err, res) => {
                       if (err) done(err);
                       else {
-                        expect(res.body.article.votes).to.equal(2);
+                        expect(res.body.article.votes).to.equal(10);
                         request(server)
                           .put(`/api/articles/${article._id}?vote=down`)
                           .end((err, res) => {
                             if (err) done(err);
                             else {
-                              expect(res.body.article.votes).to.equal(1);
+                              expect(res.body.article.votes).to.equal(9);
                               done();
                             }
                           });
@@ -854,7 +854,7 @@ describe('API', function () {
           .end((err, res) => {
             if (err) done(err);
             else {
-              expect(res.body.user.articles_vote_count).to.equal(0);
+              expect(res.body.user.articles_vote_count).to.equal(8);
               done();
             }
           });
@@ -895,10 +895,46 @@ describe('API', function () {
             if (err) done(err);
             else {
               expect(res.body.users).to.have.lengthOf(1);
-              expect(res.body.users[0]).to.include.keys('_id', 'username', 'name', 'avatar_url', '__v');
+              expect(res.body.users[0]).to.include.keys('_id', 'name', 'username', 'avatar_url', 'comment_count', 'articles_vote_count', 'comments_vote_count');
               expect(res.body.users[0].username).to.equal('northcoder');
               expect(res.body.users[0].name).to.equal('Awesome Northcoder');
               expect(res.body.users[0].avatar_url).to.equal('https://avatars3.githubusercontent.com/u/6791502?v=3&s=200');
+              done();
+            }
+          });
+      });
+
+      it('should include the correct comment_count', done => {
+        request(server)
+          .get(`/api/users`)
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.users[0].comment_count).to.equal(2);
+              done();
+            }
+          });
+      });
+
+      it('should include the correct comment_vote_count', done => {
+        request(server)
+          .get(`/api/users`)
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.users[0].comments_vote_count).to.equal(11);
+              done();
+            }
+          });
+      });
+
+      it('should include the correct articles_vote_count', done => {
+        request(server)
+          .get(`/api/users`)
+          .end((err, res) => {
+            if (err) done(err);
+            else {
+              expect(res.body.users[0].articles_vote_count).to.equal(8);
               done();
             }
           });
