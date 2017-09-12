@@ -8,3 +8,5 @@
 **/.vscode
 .idea/*
 **/.idea/*
+.nyc_output
+coverage

@@ -4,7 +4,7 @@
   "description": "### Background",
   "main": "config.js",
   "scripts": {
-    "test": "mocha ./spec",
+    "test": "nyc mocha ./spec",
     "start": "nodemon server.js",
     "lint": "eslint ./",
     "posttest": "npm run lint",
@@ -22,6 +22,7 @@
     "log4js": "^1.0.1",
     "moment": "^2.17.0",
     "mongoose": "^4.7.0",
+    "nyc": "^11.2.1",
     "path": "^0.12.7",
     "underscore": "^1.8.3"
   },
