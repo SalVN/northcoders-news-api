@@ -24,9 +24,7 @@ describe('getUserComments', () => {
                 });
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 });
 

@@ -32,9 +32,7 @@ describe('getUserArticles', () => {
                 });
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 });
 
@@ -89,7 +87,8 @@ describe('addUserArticleVotes', () => {
             username: 'northcoder',
             name: 'Awesome Northcoder',
             avatar_url: 'https://avatars3.githubusercontent.com/u/6791502?v=3&s=200',
-            _id: '59b69737305d5114710757d6' };
+            _id: '59b69737305d5114710757d6'
+        };
         const result = addUserArticleVotes(user, 13);
         expect(result).to.be.an('object');
         expect(result).to.include.keys('_id', 'name', 'username', 'avatar_url', '__v', 'articles_vote_count');

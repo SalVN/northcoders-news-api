@@ -32,9 +32,7 @@ describe('findArrayCommentCount', () => {
                 expect(result).to.eql([2, 0]);
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 
     it('should return an empty array if the input is an empty array', done => {
@@ -44,9 +42,7 @@ describe('findArrayCommentCount', () => {
                 expect(result).to.eql([]);
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 });
 
@@ -115,9 +111,7 @@ describe('findOneCommentCount', () => {
                 expect(result).to.eql(2);
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 
     it('should return 0 if the input is an empty object', done => {
@@ -127,9 +121,7 @@ describe('findOneCommentCount', () => {
                 expect(result).to.eql(0);
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 });
 
@@ -187,9 +179,7 @@ describe('findOneCommentCountUser', () => {
                 expect(result).to.equal(2);
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 
     it('should return 0 if the input is an empty object', done => {
@@ -199,8 +189,6 @@ describe('findOneCommentCountUser', () => {
                 expect(result).to.eql(0);
                 done();
             })
-            .catch(err => {
-                done(err);
-            });
+            .catch(done);
     });
 });

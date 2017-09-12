@@ -33,7 +33,3 @@ exports.findArrayCommentCountUser = function (array) {
         return Comments.count({created_by: user.username});
     });
 };
-
-exports.findOneVoteCountComments = function (obj) {
-    return Comments.find({created_by: obj.username});
-};
