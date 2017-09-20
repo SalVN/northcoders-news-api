@@ -60,7 +60,7 @@ Documentation is available [here](https://nodemon.io/).
 
 1. Install dependencies
 
-After cloning the project into a new file from from [Github](https://github.com/SalVN/w07-northcodersnews-api), navigate to the root file and use npm or yarn to install the dependencies on your machine.
+After cloning the project into a new file from from [Github](https://github.com/SalVN/northcoders-news-api), navigate to the root file and use npm or yarn to install the dependencies on your machine.
 
 ```
 npm install
