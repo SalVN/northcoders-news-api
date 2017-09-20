@@ -6,7 +6,7 @@ Northcoders News is a social news aggregation, web content rating, and discussio
 
 This project contains the API, which utilises a NoSQL database and Express server.
 
-The front-end of the project is available at <https://github.com/SalVN/w10-northcoders-news>.
+The front-end of the project is available at <https://github.com/SalVN/northcoders-news-front-end>.
 
 ## Getting Started
 
@@ -88,11 +88,11 @@ The project will run locally on <http://localhost:3000>.
 
 If the server is working, you will see the message 'All good!'.
 
-If you need to alter the port, this can be done from the config.js file. Ensure to change only the dev port. If you are running the [front-end project](https://github.com/SalVN/w10-northcoders-news), the config file will also need to be changed to reflect any updates.
+If you need to alter the port, this can be done from the config.js file. Ensure to change only the dev port. If you are running the [front-end project](https://github.com/SalVN/northcoders-news-front-end), the config file will also need to be changed to reflect any updates.
 
 5. Run the front end.
 
-If you wish to run the corresponding front end user interface, after the API is running, it is available from <https://github.com/SalVN/w10-northcoders-news>
+If you wish to run the corresponding front end user interface, after the API is running, it is available from <https://github.com/SalVN/northcoders-news-front-end>
 
 ## Functionality and Routes
 
@@ -126,7 +126,7 @@ The [Istanbul nyc coverage tests](https://istanbul.js.org/) have been used to ch
 
 ### Uses
 
-The front-end server, available from <https://github.com/SalVN/w10-northcoders-news>, also needs to be running to see the full project, although the API can be accessed without this running.
+The front-end server, available from <https://github.com/SalVN/northcoders-news-front-end>, also needs to be running to see the full project, although the API can be accessed without this running.
 
 Whilst a full list of dependencies is available on the package.json, the main libraries used are:
 
